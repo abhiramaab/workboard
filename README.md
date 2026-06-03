@@ -310,14 +310,6 @@ Deployment activities included:
 
 ---
 
-## Future Improvements
-
-* Docker Containerization
-* CI/CD Pipeline using GitHub Actions
-* API Documentation
-* Unit & Integration Testing
-* Redis Caching
-* Monitoring & Logging
 
 ---
 
