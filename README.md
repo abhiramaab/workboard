@@ -2,29 +2,36 @@
 
 ## Overview
 
-WorkBoard is a Task Management REST API built using Spring Boot. It allows users to manage projects, tasks, and comments with JWT-based authentication and role-based authorization.
+WorkBoard is a Task Management REST API built using Spring Boot. It enables secure project, task, comment, and user management through JWT-based authentication and role-based authorization.
 
-The application supports multiple user roles and provides secure endpoints for project and task management.
+The application follows a layered architecture with DTO separation, service abstraction, repository pattern, global exception handling, and Spring Security integration.
 
 ---
 
-## Features
+# Features
 
-### Authentication & Authorization
+## Authentication & Authorization
 
 * User Registration
 * User Login
 * JWT Token Generation
+* JWT Token Validation
 * Spring Security Integration
 * Role-Based Access Control
 
-### Project Management
+## User Management
+
+* View User By Email
+* Update User
+* Delete User
+
+## Project Management
 
 * Create Projects
 * View All Projects
 * View Project By ID
 
-### Task Management
+## Task Management
 
 * Create Tasks
 * Update Tasks
@@ -35,16 +42,16 @@ The application supports multiple user roles and provides secure endpoints for p
 * Get Tasks By User
 * Get Tasks By Project
 
-### Comment Management
+## Comment Management
 
 * Add Comments To Tasks
 * View Task Comments
 
 ---
 
-## Tech Stack
+# Tech Stack
 
-### Backend
+## Backend
 
 * Java 21
 * Spring Boot 3
@@ -52,25 +59,25 @@ The application supports multiple user roles and provides secure endpoints for p
 * Spring Data JPA
 * Hibernate
 
-### Database
+## Database
 
 * MySQL 8
 
-### Authentication
+## Authentication
 
 * JWT (JSON Web Token)
 
-### Build Tool
+## Build Tool
 
 * Maven
 
-### Deployment
+## Deployment
 
 * AWS EC2 (Ubuntu Linux)
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
 src
@@ -83,6 +90,7 @@ src
     │       │
     │       ├── controller
     │       │   ├── AuthController
+    │       │   ├── UserController
     │       │   ├── ProjectController
     │       │   ├── TaskController
     │       │   └── CommentsController
@@ -110,12 +118,14 @@ src
     │       │
     │       ├── service
     │       │   ├── AuthService
+    │       │   ├── UserService
     │       │   ├── ProjectService
     │       │   ├── TaskService
     │       │   └── CommentService
     │       │
     │       ├── serviceimpl
     │       │   ├── AuthServiceImpl
+    │       │   ├── UserServiceImpl
     │       │   ├── ProjectServiceImpl
     │       │   ├── TaskServiceImpl
     │       │   └── CommentServiceImpl
@@ -128,9 +138,9 @@ src
 
 ---
 
-## Database Design
+# Database Design
 
-### Users
+## Users
 
 * userId
 * name
@@ -138,14 +148,14 @@ src
 * password
 * role
 
-### Projects
+## Projects
 
 * id
 * name
 * description
 * createdBy
 
-### Tasks
+## Tasks
 
 * id
 * title
@@ -156,7 +166,7 @@ src
 * assignedUser
 * project
 
-### Comments
+## Comments
 
 * id
 * content
@@ -165,7 +175,7 @@ src
 
 ---
 
-## Entity Relationships
+# Entity Relationships
 
 ```text
 User
@@ -188,9 +198,9 @@ Comment
 
 ---
 
-## Security
+# Security
 
-### Roles
+## Roles
 
 ```text
 ADMIN
@@ -198,10 +208,12 @@ EMPLOYEE
 USER
 ```
 
-### Access Rules
+## Access Rules
 
 ```text
 /api/auth/**       -> Public
+
+/api/user/**       -> ADMIN
 
 /api/projects/**   -> ADMIN
 
@@ -210,20 +222,28 @@ USER
 /api/comments/**   -> Authenticated Users
 ```
 
-JWT authentication is used to secure API endpoints.
+JWT authentication is implemented using Spring Security filters and stateless token validation.
 
 ---
 
-## API Endpoints
+# API Endpoints
 
-### Authentication
+## Authentication
 
 ```http
 POST /api/auth/register
 POST /api/auth/login
 ```
 
-### Projects
+## Users
+
+```http
+GET    /api/user/{email}
+PATCH  /api/user/{email}
+DELETE /api/user/{email}
+```
+
+## Projects
 
 ```http
 POST /api/projects
@@ -231,7 +251,7 @@ GET  /api/projects
 GET  /api/projects/{id}
 ```
 
-### Tasks
+## Tasks
 
 ```http
 POST   /api/tasks
@@ -248,7 +268,7 @@ GET    /api/tasks/project/{projectId}
 PATCH  /api/tasks/{id}/status
 ```
 
-### Comments
+## Comments
 
 ```http
 POST /api/comments
@@ -257,33 +277,36 @@ GET  /api/comments/task/{taskId}
 
 ---
 
-## Running Locally
+# Running Locally
 
-### Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/yourusername/workboard.git
+
 cd workboard
 ```
 
-### Configure Database
+## Configure Database
 
-Update:
+Update
 
 ```properties
 spring.datasource.url=
 spring.datasource.username=
 spring.datasource.password=
+
 jwt.secret=
+jwt.expiration=
 ```
 
-### Build
+## Build
 
 ```bash
 mvn clean package
 ```
 
-### Run
+## Run
 
 ```bash
 java -jar target/workboard-0.0.1-SNAPSHOT.jar
@@ -291,30 +314,28 @@ java -jar target/workboard-0.0.1-SNAPSHOT.jar
 
 ---
 
-## AWS Deployment
+# AWS Deployment
 
-The application was deployed on:
+The application is designed for deployment on:
 
 * AWS EC2 (Ubuntu Linux)
 * MySQL Database
 * Java 21 Runtime
 
-Deployment activities included:
+Deployment workflow includes:
 
 * EC2 instance provisioning
 * Security Group configuration
 * SSH access configuration
 * MySQL installation and configuration
 * JAR deployment using SCP
-* Remote application execution using Java
+* Environment variable configuration
+* Remote application execution
 
 ---
 
-
----
-
-## Author
+# Author
 
 Abhirama
 
-Spring Boot | Java | SQL | AWS | REST API Development
+Spring Boot | Java | Spring Security | JWT | SQL | AWS | REST API Development
