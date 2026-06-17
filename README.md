@@ -53,7 +53,7 @@ The application follows a layered architecture with DTO separation, service abst
 
 ## Backend
 
-* Java 21
+* Java 17
 * Spring Boot 3
 * Spring Security
 * Spring Data JPA
